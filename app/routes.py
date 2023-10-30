@@ -249,6 +249,13 @@ def delete_profile(id):
                 db.session.delete(likeObject)
                 db.session.commit()
                 
+            comments = db.session.query(Comment).filter(Comment.blog_id == blog.id).all()
+            for comment in comments:
+                db.session.delete(comment)
+                db.session.commit()
+            
+                
+                
             
             
             db.session.delete(blog)
