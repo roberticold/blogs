@@ -203,6 +203,14 @@ def delete_blog(id):
             db.session.delete(blog)
 
         db.session.commit()
+        
+    comments = db.session.query(Comment).filter(
+        Comment.blog_id == id).all()
+    if comments:
+        for comment in comments:
+            db.session.delete(comment)
+
+        db.session.commit()
 
     try:
 
