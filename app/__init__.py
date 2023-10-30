@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+# from flask_cors import CORS
 import os
 
 
@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 jwt=JWTManager(app)
-CORS(app)
+# CORS(app)
 
 
 
