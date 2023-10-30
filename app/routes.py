@@ -76,8 +76,8 @@ def get_photo(id):
 
 # login
 
-@app.route("/login", methods=["POST"])
-def login():
+@app.route("/loginUser", methods=["POST"])
+def loginUser():
     data = request.get_json()
 
     user = db.session.query(User).filter(
