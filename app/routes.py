@@ -31,7 +31,7 @@ def get_reset_password_email():
         
         
         https://blog-backend-82mr.onrender.com/resetpassword?token={access_token}
-        # http://127.0.0.1:5000/resetpassword?token={access_token}
+       
         
         
         
