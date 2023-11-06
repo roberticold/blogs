@@ -141,7 +141,7 @@ def update_password():
         db.session.add(user)
         db.session.commit()
 
-    return {"message": "Password updated successfully!"}, 201
+    return {"message": "Email updated successfully!"}, 201
 
 
 # update photo
