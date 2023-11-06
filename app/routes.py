@@ -30,7 +30,8 @@ def get_reset_password_email():
         To reset your password, visit the following link:
         
         
-        http://127.0.0.1:5000/resetpassword?token={access_token}
+        https://blog-backend-82mr.onrender.com/resetpassword?token={access_token}
+        # http://127.0.0.1:5000/resetpassword?token={access_token}
         
         
         
@@ -51,7 +52,8 @@ def redirect_reset_password_template():
     token = request.args.get('token')
     
       
-    return redirect(f'http://localhost:5173/oldpasswordreset?token={token}')
+    return redirect(f'https://roberto-blogs.netlify.app/oldpasswordreset?token={token}')
+    # return redirect(f'http://localhost:5173/oldpasswordreset?token={token}')
 
 
 
