@@ -130,14 +130,14 @@ def register():
     
 
 
-# update password
+# update email
 
-@app.route("/user/passwordUpdate", methods=["POST"])
+@app.route("/user/emailUpdate", methods=["PUT"])
 def update_password():
     data = request.get_json()
     user = db.session.query(User).filter(User.id == data["id"]).first()
     if user:
-        user.password = pbkdf2_sha256.hash(data["password"])
+        user.email = data["email"]
         db.session.add(user)
         db.session.commit()
 
