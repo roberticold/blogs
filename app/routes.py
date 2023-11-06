@@ -1,9 +1,102 @@
-from app import app, db
+from app import app, db,mail
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
-from flask import request
+from flask import request,redirect,url_for
 from passlib.hash import pbkdf2_sha256
 from flask_smorest import Blueprint, abort
 from app.models import User, Blog, Comment, Like
+from flask_mail import Message
+from datetime import timedelta,datetime,timezone
+
+
+
+
+
+# get reset password link
+
+@app.route("/getresetpasswordemail", methods=["POST"])
+def get_reset_password_email():
+    data = request.get_json()
+    one_minutes = timedelta(minutes=5)
+
+    user = db.session.query(User).filter(
+        User.email == data["email"]).first()
+
+    if user :
+        access_token = create_access_token(identity=user.id,expires_delta=one_minutes)
+        msg= Message('Password Reset Request', sender='robertpersonalmail@gmail.com',recipients=[user.email])
+        
+        msg.body=f""" 
+        
+        To reset your password, visit the following link:
+        
+        
+        http://127.0.0.1:5000/resetpassword?token={access_token}
+        
+        
+        
+        If you did not make this request simply ignore this email and no changes will be made
+        
+        """
+        mail.send(msg)
+    return {'message': "User found"},200   
+        
+        
+
+
+# redirect to the reset password template  
+
+@app.route("/resetpassword", methods=["GET"])
+def redirect_reset_password_template():
+    
+    token = request.args.get('token')
+    
+      
+    return redirect(f'http://localhost:5173/oldpasswordreset?token={token}')
+
+
+
+# reset the password
+
+@app.route("/reset_password", methods=["PUT"])
+@jwt_required()
+def reset_password():
+    
+    
+    
+    data = request.get_json()
+    jwt = get_jwt()
+    id=jwt['sub']
+    exp_timestamp = jwt["exp"]
+    now = datetime.now(timezone.utc)
+    target_timestamp = datetime.timestamp(now)
+    if target_timestamp < exp_timestamp:
+            
+        user = db.session.query(User).filter(User.id == id).first()
+    
+        if user:
+    
+            user.password = pbkdf2_sha256.hash(data["password"])
+            db.session.add(user)
+            db.session.commit()
+
+            return {"message": "Password successfully reset!"}, 201
+        else:
+            return {"message": "User not found!"}, 404
+            
+    else:
+        return {"message": "Token expired"},401
+                
+            
+            
+            
+            
+            
+        
+    
+    
+   
+
+
 
 
 # signup
