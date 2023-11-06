@@ -31,7 +31,7 @@ def get_reset_password_email():
         
         
         https://blog-backend-82mr.onrender.com/resetpassword?token={access_token}
-       
+        
         
         
         
@@ -53,7 +53,7 @@ def redirect_reset_password_template():
     
       
     return redirect(f'https://roberto-blogs.netlify.app/oldpasswordreset?token={token}')
-    # return redirect(f'http://localhost:5173/oldpasswordreset?token={token}')
+    
 
 
 
